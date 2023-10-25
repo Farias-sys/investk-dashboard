@@ -1,5 +1,10 @@
 import React from "react";
 
+import { UserContext } from "@/context";
+import { UserContextProps } from "@/context/UserContext";
+import api from "@/services/api";
+import axios, { AxiosError } from "axios";
+
 import Header from "@/components/page/Header";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,11 +16,58 @@ import {
 }from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login(){
 
-    const[email, setEmail] = React.useState("");
+    const navigate = useNavigate();
+
+    const {
+        setTenant,
+        setEmail,
+        setName,
+        setTotalInvested,
+        setTotalYield
+    } = React.useContext(UserContext) as UserContextProps;
+
+    const[user_email, setUserEmail] = React.useState("");
     const[password, setPassword] = React.useState("");
+
+    // Show states
+    const[showWrongPasswordAlert, setShowWrongPasswordAlert] = React.useState(false);
+    const[showNotFoundUserAlert, setShowNotFoundUserAlert] = React.useState(false);
+
+    const closeAllAlerts = () => {
+        setShowWrongPasswordAlert(false)
+        setShowNotFoundUserAlert(false)
+    }
+
+    const onSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        closeAllAlerts()
+        try {
+            const request = await api.post("/users/login", {"email":user_email, "password":password})
+            if(request.status == 200){
+                const res = request.data
+                setTenant(res.tenant)
+                setEmail(res.email)
+                setName(res.name)
+                setTotalInvested(res.totalInvested)
+                setTotalYield(res.totalYield)
+                navigate("/dashboard")
+            }
+        } catch (err) {
+            if(axios.isAxiosError(err)){
+                const axiosError = err as AxiosError;
+                
+                if (axiosError.response?.status === 401) {
+                    setShowWrongPasswordAlert(true)
+                } else if(axiosError.response?.status === 404){
+                    setShowNotFoundUserAlert(true)
+                }
+            }
+        } 
+    }
 
     return(
         <div className="main min-h-screen">
@@ -26,17 +78,21 @@ function Login(){
                         <CardTitle className="text-2xl">Login no InvestK</CardTitle>
                         <CardDescription>Insira seu email e senha para entrar no sistema</CardDescription>
                     </CardHeader>
-                    <CardContent className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" onChange={(e) => {setEmail(e.target.value)}} placeholder="m@example.com" />
-                        </div>
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input id="password" type="password" onChange={(e) => {setPassword(e.target.value)}} />
-                        </div>
-                        <Button className="w-full bg-green-600 hover:bg-green-500">Acessar</Button>
-                        <h4 className="font-thin text-sm text-center">Não possuí uma conta? <a href="/register" className="text-blue-400">Crie uma conta!</a></h4>
+                    <CardContent>
+                        <form onSubmit={onSubmit} className="grid gap-4">
+                            <div className="grid gap-2">
+                                <Label htmlFor="email">Email</Label>
+                                <Input id="email" type="email" onChange={(e) => {setUserEmail(e.target.value)}} placeholder="m@example.com" />
+                                {(showNotFoundUserAlert) && ((<h4 className="font-extralight text-xs text-yellow-600">Usuário não encontrado!</h4>))}
+                            </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="password">Password</Label>
+                                <Input id="password" type="password" onChange={(e) => {setPassword(e.target.value)}} />
+                                {(showWrongPasswordAlert) && (<h4 className="font-extralight text-xs text-yellow-600">Senha incorreta!</h4>)}
+                            </div>
+                            <Button className="w-full bg-green-600 hover:bg-green-500">Acessar</Button>
+                            <h4 className="font-thin text-sm text-center">Não possuí uma conta? <Link to={"/register"} className="text-blue-400 hover:text-lg">Crie uma conta!</Link></h4>
+                        </form>
                     </CardContent>
                 </Card>
             </div>
