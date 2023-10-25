@@ -10,22 +10,18 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload';
 import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 
-interface IconTypes{
-    icon: "montante_inicial" | "rendimentos" | "valor_total" | "impostos"
-}
-
 interface DashboardCardsProps{
-    icon: IconTypes;
+    icon: "montante_inicial" | "rendimentos" | "valor_total" | "impostos";
     title:string;
     value:number;
 }
 
-export function DashboardCards(props : DashboardCardsProps){
+export default function DashboardCards(props : DashboardCardsProps){
     const icon = props.icon
     const title = props.title
     const value = props.value
 
-    const iconSwitch = (icon : IconTypes) => {
+    const iconSwitch = (icon : "montante_inicial" | "rendimentos" | "valor_total" | "impostos") => {
         switch (icon) {
             case "montante_inicial":
                 return(<LocalAtmIcon className="mt-2" style={{fontSize:'50px'}} color="warning"/>)
