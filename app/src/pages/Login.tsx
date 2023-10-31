@@ -49,7 +49,7 @@ function Login(){
             const request = await api.post("/users/login", {"email":user_email, "password":password})
             if(request.status == 200){
                 const res = request.data
-                setTenant(res.tenant)
+                setTenant(res.id)
                 setEmail(res.email)
                 setName(res.name)
                 setTotalInvested(res.totalInvested)
@@ -82,12 +82,12 @@ function Login(){
                         <form onSubmit={onSubmit} className="grid gap-4">
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email</Label>
-                                <Input id="email" type="email" onChange={(e) => {setUserEmail(e.target.value)}} placeholder="m@example.com" />
+                                <Input id="email" type="email" onChange={(e) => {setUserEmail(e.target.value)}} placeholder="m@example.com" required/>
                                 {(showNotFoundUserAlert) && ((<h4 className="font-extralight text-xs text-yellow-600">Usuário não encontrado!</h4>))}
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="password">Password</Label>
-                                <Input id="password" type="password" onChange={(e) => {setPassword(e.target.value)}} />
+                                <Input id="password" type="password" onChange={(e) => {setPassword(e.target.value)}} required/>
                                 {(showWrongPasswordAlert) && (<h4 className="font-extralight text-xs text-yellow-600">Senha incorreta!</h4>)}
                             </div>
                             <Button className="w-full bg-green-600 hover:bg-green-500">Acessar</Button>

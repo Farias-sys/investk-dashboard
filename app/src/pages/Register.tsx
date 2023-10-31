@@ -49,15 +49,15 @@ function Register(){
                         <form onSubmit={onSubmit} className="grid gap-4">
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Nome</Label>
-                                <Input id="email" type="text" onChange={(e) => {setUsername(e.target.value)}} placeholder="Como devemos te chamar?" />
+                                <Input id="email" type="text" onChange={(e) => {setUsername(e.target.value)}} placeholder="Como devemos te chamar?" required/>
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email</Label>
-                                <Input id="email" type="email" onChange={(e) => {setEmail(e.target.value)}} placeholder="m@example.com" />
+                                <Input id="email" type="email" onChange={(e) => {setEmail(e.target.value)}} placeholder="m@example.com" required/>
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="password">Password</Label>
-                                <Input id="password" type="password" onChange={(e) => {setPassword(e.target.value)}} />
+                                <Input id="password" type="password" onChange={(e) => {setPassword(e.target.value)}} required/>
                             </div>
                 
                             <Button type="submit" className="w-full bg-green-600 hover:bg-green-500">Criar conta</Button>

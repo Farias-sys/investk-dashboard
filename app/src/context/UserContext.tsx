@@ -1,26 +1,30 @@
 import React, { createContext } from "react";
+import { useLocalStorage } from "@/hooks";
 
-export interface UserContextProps{
+export interface UserProps{
     tenant: number
-    setTenant: React.Dispatch<React.SetStateAction<number>>
     email: string
-    setEmail: React.Dispatch<React.SetStateAction<string>>
     name: string 
-    setName: React.Dispatch<React.SetStateAction<string>>
     total_invested: number
-    setTotalInvested: React.Dispatch<React.SetStateAction<number>>
     total_yield: number
+}
+
+export interface UserContextProps extends UserProps{
+    setTenant: React.Dispatch<React.SetStateAction<number>>
+    setEmail: React.Dispatch<React.SetStateAction<string>>
+    setName: React.Dispatch<React.SetStateAction<string>>
+    setTotalInvested: React.Dispatch<React.SetStateAction<number>>
     setTotalYield: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const UserContext = createContext<UserContextProps | null>(null);
 
 function UserProvider({children} : any){
-    const[tenant, setTenant] = React.useState(0)
-    const[email, setEmail] = React.useState("")
-    const[name, setName] = React.useState("")
-    const[total_invested, setTotalInvested] = React.useState(0)
-    const[total_yield, setTotalYield] = React.useState(0)
+    const[tenant, setTenant] = useLocalStorage("tenant", 0)
+    const[email, setEmail] = useLocalStorage("email", "")
+    const[name, setName] = useLocalStorage("name", "")
+    const[total_invested, setTotalInvested] = useLocalStorage("total_invested", 0)
+    const[total_yield, setTotalYield] = useLocalStorage("total_yield", 0)
 
     const userStore = {
         tenant, setTenant,
