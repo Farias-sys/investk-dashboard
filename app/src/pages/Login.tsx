@@ -16,11 +16,9 @@ import {
 }from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Login(){
-
-    const navigate = useNavigate();
 
     const {
         setTenant,
@@ -54,7 +52,7 @@ function Login(){
                 setName(res.name)
                 setTotalInvested(res.totalInvested)
                 setTotalYield(res.totalYield)
-                navigate("/dashboard")
+                window.location.assign('/dashboard')
             }
         } catch (err) {
             if(axios.isAxiosError(err)){
