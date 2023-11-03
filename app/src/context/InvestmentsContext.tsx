@@ -57,6 +57,7 @@ function InvestmentsProvider({children} : any){
             let total_invested : number = 0;
             let total_yield : number = 0;
             let previsted_yield : number = 0;
+            const processedData = []
             for (let index = 0; index < investments.length; index++) {
                 const item = investments[index];
                 
@@ -89,8 +90,10 @@ function InvestmentsProvider({children} : any){
                     "dateDeadline":investment_deadline
 
                 }
-                setActiveInvestments([... [processed_investment]])
+                processedData.push(processed_investment)
+
             }
+            setActiveInvestments(processedData)
             setTotalInvested(total_invested)
             setTotalYield(total_yield)
             setPrevistedYield(previsted_yield)

@@ -22,11 +22,11 @@ function BanksProvider({children} : any){
     
     React.useEffect(() => {
         createProcessedBanksData()
-    }, [banks])
+    }, [banks, active_investments])
     
     // React.useEffect(() => {
     //     processBanksData()
-    // }, [active_investments])
+    // }, [])
 
 
     const getBanksData = async () => {
@@ -48,13 +48,19 @@ function BanksProvider({children} : any){
                     "previsted_yield":0
                 }
             })
-            setProcessedBanks(newBanksArray)    
-        }
+        
+            setProcessedBanks(newBanksArray)
+                
+            if(active_investments){
+                processBanksData()
+            }
+
+        
+        } 
     }
 
     const mapBanksByInvestment = (bank_id : ProcessedBanksProps['id'], total_invested : ProcessedBanksProps['total_invested'], total_yield : ProcessedBanksProps['total_yield'], previsted_yield : ProcessedBanksProps['previsted_yield']) => {
         const newBanksArray : ProcessedBanksProps[] = processed_banks.map((item: ProcessedBanksProps) => {
-            console.log(bank_id)
             if(bank_id==item.id){
                 item.total_invested+=total_invested
                 item.total_yield+=total_yield
@@ -75,10 +81,8 @@ function BanksProvider({children} : any){
 
     const processBanksData = () => {
         if(active_investments){
-            console.log(active_investments)
             active_investments.map((item : ProcessedInvestmentProps) => {
                 const investment_bank : ProcessedInvestmentProps['bankId'] = item.bankId
-                console.log(investment_bank)
                 const total_invested : ProcessedInvestmentProps['initialValue'] = item.initialValue
                 const total_yield : ProcessedInvestmentProps['gains'] = item.gains
                 const previsted_yield : ProcessedInvestmentProps['previsted_gains'] = item.previsted_gains
