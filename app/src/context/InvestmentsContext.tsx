@@ -89,7 +89,7 @@ function InvestmentsProvider({children} : any){
                     "dateDeadline":investment_deadline
 
                 }
-                active_investments?.push(processed_investment)
+                setActiveInvestments([... [processed_investment]])
             }
             setTotalInvested(total_invested)
             setTotalYield(total_yield)
