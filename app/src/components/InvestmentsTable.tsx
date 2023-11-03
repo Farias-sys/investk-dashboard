@@ -31,6 +31,7 @@ import { Button } from "./ui/button"
 import { Label } from "./ui/label"
 import { Input } from "./ui/input"
 import CreateInvestmentForm from "./forms/CreateInvestmentForm"
+import { calcSumDateWDecimal } from "@/utils"
 
 export default function InvestmentsTable(){
 
@@ -70,7 +71,9 @@ export default function InvestmentsTable(){
                     <TableHead className="text-center">Rendimento</TableHead>
                     <TableHead className="text-center">Valor aplicado</TableHead>
                     <TableHead className="text-center">Valor ganho</TableHead>
+                    <TableHead className="text-center">Valor previsto</TableHead>
                     <TableHead className="text-center">Data da criação</TableHead>
+                    <TableHead className="text-center">Data de vencimento</TableHead>
                     <TableHead className="text-center w-36">Ações</TableHead>
                 </TableRow>
             </TableHeader>
@@ -84,7 +87,9 @@ export default function InvestmentsTable(){
                         <TableCell className="text-center">{item.yield}%</TableCell>
                         <TableCell className="text-center">R$ {item.initialValue.toLocaleString('pt-br', {style: 'decimal', minimumIntegerDigits: 1, minimumFractionDigits:2, maximumFractionDigits:2})}</TableCell>
                         <TableCell className="text-center">R$ {item.gains.toLocaleString('pt-br', {style: 'decimal', minimumIntegerDigits: 1, minimumFractionDigits:2, maximumFractionDigits:2})}</TableCell>
-                        <TableCell className="text-center">{(new Date(item.dateCreated)).toLocaleDateString()}</TableCell>
+                        <TableCell className="text-center">R$ {item.previsted_gains.toLocaleString('pt-br', {style: 'decimal', minimumIntegerDigits: 1, minimumFractionDigits:2, maximumFractionDigits:2})}</TableCell>
+                        <TableCell className="text-center">{item.dateCreated.toLocaleDateString()}</TableCell>
+                        <TableCell className="text-center">{item.dateDeadline.toLocaleDateString()}</TableCell>
                         <TableCell className="text-center grid gap-2 grid-cols-2">
                             <AlertDialog>
                                 <AlertDialogTrigger>

@@ -1,16 +1,10 @@
-export default function calcDate(date1 : Date,date2 : Date) {
-    const diff = Math.floor(date1.getTime() - date2.getTime());
-    const day = 1000 * 60 * 60 * 24;
-
-    const days = Math.floor(diff/day);
-    const months = Math.floor(days/31);
-    const years = Math.floor(months/12);
-
-    const remainingMonths = months % 12;
-    const remainingDays = days % 31;  // Aproximação para dias
-
-    const decimalYears = years + remainingMonths / 12 + remainingDays / 365;
-
-    return decimalYears;
-    
-}
+export default function calcDate(date1: Date, date2: Date): number {
+    const millisecondsPerDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
+    const timeDifferenceInMilliseconds = Math.abs(date1.getTime() - date2.getTime());
+    const timeDifferenceInDays = timeDifferenceInMilliseconds / millisecondsPerDay;
+  
+    const years = timeDifferenceInDays / 365;
+    const months = (years - Math.floor(years)) * 12;
+  
+    return Math.floor(years) + months / 12;
+  }

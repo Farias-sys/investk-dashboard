@@ -1,4 +1,5 @@
-export{default as calcTesouroPrefixado} from './CalcTesouroPrefixado'
-export{default as calcLCILCA} from './CalcLCILCA'
-export{default as calcCDB} from './CalcCDB'
+export{default as calcInvestmentYield} from './CalcInvestmentYield'
 export{default as calcDate} from './CalcDate'
+export{default as calcDateRange} from './CalcDateRange'
+export{default as calcSumDateWDecimal} from './CalcSumDateWDecimal'
+export{default as calcSumDateWDays} from './CalcSumDateWDays'

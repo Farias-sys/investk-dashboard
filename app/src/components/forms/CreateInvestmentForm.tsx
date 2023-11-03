@@ -23,7 +23,7 @@ import { Label } from '../ui/label';
 import { Textarea } from "@/components/ui/textarea"
 import { InvestmentProps } from '@/types';
 import React from 'react';
-import { calcDate } from '@/utils';
+import { calcDate, calcSumDateWDays } from '@/utils';
 import api from '@/services/api';
 import { UserContext } from '@/context';
 import { UserContextProps } from '@/context/UserContext';
@@ -54,15 +54,14 @@ export default function CreateInvestmentForm(){
     const[date_expire, setDateExpire] = React.useState<Date|null>(null)
 
     const onSubmit = async () => {
-        const planed_interval = calcDate(date_expire, date_created)
         const investmentObject : InvestmentProps = {
             "label":label,
             "type":type,
             "description":description,
             "yield":investment_yield,
             "initialValue":initialValue,
-            "dateCreated":date_created,
-            "planedInterval":planed_interval
+            "dateCreated":calcSumDateWDays(date_created, 1),
+            "dateDeadline":calcSumDateWDays(date_expire, 1)
 
         }
         const response = await api.post(`investments/create/${tenant}/${bank}`, investmentObject)

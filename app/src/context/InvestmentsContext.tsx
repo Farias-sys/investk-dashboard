@@ -8,7 +8,7 @@ import {InvestmentProps} from "@/types";
 import api from "@/services/api";
 
 
-import { calcCDB, calcDate } from "@/utils";
+import { calcDate, calcInvestmentYield } from "@/utils";
 import { InvestmentsContextProps } from "@/types/investments";
 
 export const InvestmentsContext = createContext<InvestmentsContextProps|null>(null)
@@ -59,28 +59,17 @@ function InvestmentsProvider({children} : any){
             let previsted_yield : number = 0;
             for (let index = 0; index < investments.length; index++) {
                 const item = investments[index];
+                
                 let gains : number;
                 let previsted_gains : number;
-                const investment_created_date : Date = new Date(item.dateCreated)
+                
+                const investment_created_date : Date = new Date((new Date(item.dateCreated)).setHours(0, 0, 0, 0))
+                const investment_deadline : Date = new Date((new Date(item.dateDeadline)).setHours(0, 0, 0, 0))
                 const date_now : Date = new Date()
-                switch (item.type) {
-                    case "cdb":
-                        gains = calcCDB(item.initialValue, item.yield/100, calcDate(date_now, investment_created_date))
-                        previsted_gains = calcCDB(item.initialValue,item.yield/100,item.planedInterval)
-                        break;
-                    case "lci/lca":
-                        gains = calcCDB(item.initialValue, item.yield/100, calcDate(date_now, investment_created_date))
-                        previsted_gains = calcCDB(item.initialValue,item.yield/100,item.planedInterval)
-                        break;
-                    case "tesouro_prefixado":
-                        gains = calcCDB(item.initialValue, item.yield/100, calcDate(date_now, investment_created_date))
-                        previsted_gains = calcCDB(item.initialValue,item.yield/100,item.planedInterval)
-                        break;
-                    default:
-                        gains = 0
-                        previsted_gains = 0
-                        break;
-                }
+                
+                gains = calcInvestmentYield(item.initialValue, item.yield/100, calcDate(date_now, investment_created_date), item.type)
+                previsted_gains = calcInvestmentYield(item.initialValue, item.yield/100, calcDate(date_now, investment_deadline), item.type)
+                
                 total_invested += item.initialValue
                 total_yield += gains
                 previsted_yield += previsted_gains
@@ -96,8 +85,8 @@ function InvestmentsProvider({children} : any){
                     "gains":gains,
                     "previsted_gains":previsted_gains,
                     "taxes":0,
-                    "dateCreated":item.dateCreated,
-                    "planedInterval":item.planedInterval
+                    "dateCreated":investment_created_date,
+                    "dateDeadline":investment_deadline
 
                 }
                 active_investments?.push(processed_investment)

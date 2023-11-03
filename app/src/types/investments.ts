@@ -6,7 +6,7 @@ export default interface InvestmentProps{
     yield:number
     initialValue:number
     dateCreated:Date
-    planedInterval:number
+    dateDeadline:Date
     bankId:number
 }
 
