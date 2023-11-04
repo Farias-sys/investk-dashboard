@@ -88,7 +88,7 @@ export default function YieldsChart(){
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line name="Rendimentos previstos" type="monotone" dataKey="rp" stroke="#8884d8"/>
+          <Line name="Rendimentos previstos" type="monotone" dataKey="rp" stroke="#ae28bf"/>
           <Line name="Rendimentos atuais" type="monotone" dataKey="ra" stroke="#34eb74"/>
         </LineChart>
       </ResponsiveContainer>

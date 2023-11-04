@@ -38,11 +38,11 @@ export default function DashboardCards(props : DashboardCardsProps){
                 break;
             case "rendimentos":
                 tooltip_message = "O rendimento atual dos seus investimentos até a data de hoje (estimado)"
-                return(<AssuredWorkloadIcon className="mt-2" style={{fontSize:'50px'}} color="secondary"/>)
+                return(<AssuredWorkloadIcon className="mt-2" style={{fontSize:'50px'}} color="success"/>)
                 break;
             case "rendimentos_previstos":
                 tooltip_message = "O rendimento bruto de seus investimentos se você não retirá-los antes do tempo (estimado)"
-                return(<ShowChartIcon className="mt-2" style={{fontSize:'50px'}} color="success"/>)
+                return(<ShowChartIcon className="mt-2" style={{fontSize:'50px'}} color="secondary"/>)
                 break;
             case "valor_total":
                 tooltip_message = "O valor investido + o valor do seu rendimento atual"

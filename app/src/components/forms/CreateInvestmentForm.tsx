@@ -32,6 +32,7 @@ import { InvestmentsContextProps } from '@/types/investments';
 import CreateBankForm from './CreateBankForm';
 import { BanksContext } from '@/context/BanksContext';
 import { BanksContextProps } from '@/types/banks';
+import { message } from 'antd';
 
 
 export default function CreateInvestmentForm(){
@@ -65,6 +66,14 @@ export default function CreateInvestmentForm(){
 
         }
         const response = await api.post(`investments/create/${tenant}/${bank}`, investmentObject)
+
+        if(response.status==200){
+            message.success({
+                "content":"Investimento cadastrado com sucesso!",
+                "style":{marginTop:'5rem'}
+            })
+        }
+
         getInvestmentsData()
     }
     

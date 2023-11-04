@@ -17,6 +17,7 @@ import { UserContext } from "@/context"
 import { UserContextProps } from "@/context/UserContext"
 import { BanksContext } from "@/context/BanksContext"
 import { BanksContextProps } from "@/types/banks"
+import { message } from "antd"
 
 export default function CreateBankForm(){
     const {tenant} = React.useContext(UserContext) as UserContextProps
@@ -27,6 +28,12 @@ export default function CreateBankForm(){
 
     const onSubmit = async () => {
         const response = await api.post(`/banks/create/${tenant}`, {"name":name})
+        if(response.status==200){
+            message.success({
+                "content":"Banco criado com sucesso!",
+                "style":{marginTop:'5rem'},
+            })
+        }
         getBanksData()
     }
 

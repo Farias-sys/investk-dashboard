@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
+import { message } from "antd";
 
 function Register(){
 
@@ -30,6 +31,10 @@ function Register(){
             const request = await api.post("/users/create", {"name":username, "email":email, "password":password})
             if(request.status == 200){
                 navigate("/login");
+                message.success({
+                    "content":"Usuário criado com sucesso",
+                    "style":{marginTop:'5rem'},
+                })
             }
         } catch (error) {
             

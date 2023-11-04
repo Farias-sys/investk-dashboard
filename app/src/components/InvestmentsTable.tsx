@@ -30,8 +30,8 @@ import {
 import { Button } from "./ui/button"
 import { Label } from "./ui/label"
 import { Input } from "./ui/input"
+import {message} from  "antd"
 import CreateInvestmentForm from "./forms/CreateInvestmentForm"
-import { calcSumDateWDecimal } from "@/utils"
 
 export default function InvestmentsTable(){
 
@@ -39,14 +39,22 @@ export default function InvestmentsTable(){
     
     // useStates for update forms
 
-    const[label, setLabel] = React.useState<string|null>()
-    const[description, setDescription] = React.useState<string|null>()
-    const[investment_yield, setYield] = React.useState<any|null>()
+    const[label, setLabel] = React.useState<string|null>(null)
+    const[description, setDescription] = React.useState<string|null>(null)
+    const[investment_yield, setYield] = React.useState<string|null>(null)
+    const[dateCreated, setDateCreated] = React.useState<string|null>(null)
+    const[dateDeadline, setDateDeadline] = React.useState<string | null>(null)
 
     // Requests
 
     const deleteInvestment = async (investment_id : number) => {
         const response = await api.delete(`/investments/delete/${investment_id}`)
+        if(response.status==200){
+            message.success({
+                "content":"Investimento deletado!",
+                "style":{marginTop:'5rem'}
+            })
+        }
         await getInvestmentsData()
     }
 
@@ -54,9 +62,19 @@ export default function InvestmentsTable(){
         const req_body = {
             "label":label,
             "description":description,
-            "yield":investment_yield
+            "yield":investment_yield,
+            "dateCreated":dateCreated,
+            "dateDeadline":dateDeadline
         }
         const response = await api.post(`investments/update/${investment_id}`, req_body)
+
+        if(response.status==200){
+            console.log('foi')
+            message.success({
+                "content":"Os dados do investimento foram atualizados com sucesso!",
+                "style":{marginTop:'5rem'},
+            })
+        }
         
         await getInvestmentsData()
     }
@@ -127,6 +145,14 @@ export default function InvestmentsTable(){
                                         <div className="grid gap-2">
                                             <Label htmlFor="yield">Rendimento do investimento</Label>
                                             <Input id="yield" type="number" placeholder={`${item.yield.toString()} %`} onChange={(e) => {setYield(e.target.value)}}/>
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="date-created">Data de criação</Label>
+                                            <Input id="date-created" type="date" placeholder={`${item.dateCreated.toLocaleDateString()}`} onChange={(e) => {setDateCreated(e.target.value)}}/>
+                                        </div>
+                                        <div className="grid gap-2">
+                                            <Label htmlFor="date-deadline">Data de vencimento</Label>
+                                            <Input id="date-deadline" type="date" placeholder={`${item.dateDeadline.toLocaleDateString()}`} onChange={(e) => {setDateDeadline(e.target.value)}}/>
                                         </div>
                                     </form> 
                                     <AlertDialogFooter>
