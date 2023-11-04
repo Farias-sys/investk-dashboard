@@ -1,6 +1,6 @@
 export interface BanksProps{
-    id:number|null
-    name:string|null
+    id:number
+    name:string
 }
 
 export interface ProcessedBanksProps extends BanksProps{

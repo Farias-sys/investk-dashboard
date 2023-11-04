@@ -23,7 +23,7 @@ import { Label } from '../ui/label';
 import { Textarea } from "@/components/ui/textarea"
 import { InvestmentProps } from '@/types';
 import React from 'react';
-import { calcDate, calcSumDateWDays } from '@/utils';
+import { calcSumDateWDays } from '@/utils';
 import api from '@/services/api';
 import { UserContext } from '@/context';
 import { UserContextProps } from '@/context/UserContext';
@@ -51,11 +51,11 @@ export default function CreateInvestmentForm(){
     const[description, setDescription] = React.useState<InvestmentProps['description']|null>(null)
     const[initialValue, setInitialValue] = React.useState<InvestmentProps['initialValue']|null>(null)
     const[investment_yield, setYield] = React.useState<InvestmentProps['yield']|null>(null)
-    const[date_created, setDateCreated] = React.useState<InvestmentProps['dateCreated']|null>(null)
-    const[date_expire, setDateExpire] = React.useState<Date|null>(null)
+    const[date_created, setDateCreated] = React.useState<InvestmentProps['dateCreated']>(new Date())
+    const[date_expire, setDateExpire] = React.useState<Date>(new Date())
 
     const onSubmit = async () => {
-        const investmentObject : InvestmentProps = {
+        const investmentObject = {
             "label":label,
             "type":type,
             "description":description,

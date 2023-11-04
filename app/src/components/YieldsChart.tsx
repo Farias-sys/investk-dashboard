@@ -1,14 +1,21 @@
 import { InvestmentsContext } from "@/context/InvestmentsContext"
 import { InvestmentsContextProps, ProcessedInvestmentProps } from "@/types/investments"
-import { calcDate, calcDateRange, calcInvestmentYield, calcSumDateWDays, calcSumDateWDecimal } from "@/utils"
+import { calcDate, calcDateRange, calcInvestmentYield } from "@/utils"
 import React from "react"
 import { LineChart,Line, Tooltip, Legend, CartesianGrid,XAxis, YAxis, ResponsiveContainer } from "recharts"
 
 export default function YieldsChart(){
 
-  const {active_investments, total_yield} = React.useContext(InvestmentsContext) as InvestmentsContextProps
+  interface MappedDatesProps {
+    "name":string,
+    "amt":number,
+    "ra":number|null,
+    "rp":number|null
+  }
 
-  const[data, setData] = React.useState([])
+  const {active_investments} = React.useContext(InvestmentsContext) as InvestmentsContextProps
+
+  const[data, setData] = React.useState<MappedDatesProps[]>([])
 
   React.useEffect(()=>{
     chart_date_map()
