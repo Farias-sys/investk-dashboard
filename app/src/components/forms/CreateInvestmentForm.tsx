@@ -55,26 +55,33 @@ export default function CreateInvestmentForm(){
     const[date_expire, setDateExpire] = React.useState<Date>(new Date())
 
     const onSubmit = async () => {
-        const investmentObject = {
-            "label":label,
-            "type":type,
-            "description":description,
-            "yield":investment_yield,
-            "initialValue":initialValue,
-            "dateCreated":calcSumDateWDays(date_created, 1),
-            "dateDeadline":calcSumDateWDays(date_expire, 1)
-
-        }
-        const response = await api.post(`investments/create/${tenant}/${bank}`, investmentObject)
-
-        if(response.status==200){
-            message.success({
-                "content":"Investimento cadastrado com sucesso!",
+        if(label&&bank&&type&&description&&initialValue&&investment_yield&&date_created&&date_expire){
+            const investmentObject = {
+                "label":label,
+                "type":type,
+                "description":description,
+                "yield":investment_yield,
+                "initialValue":initialValue,
+                "dateCreated":calcSumDateWDays(date_created, 1),
+                "dateDeadline":calcSumDateWDays(date_expire, 1)
+    
+            }
+            const response = await api.post(`investments/create/${tenant}/${bank}`, investmentObject)
+    
+            if(response.status==200){
+                message.success({
+                    "content":"Investimento cadastrado com sucesso!",
+                    "style":{marginTop:'5rem'}
+                })
+            }
+    
+            getInvestmentsData()
+        } else {
+            message.info({
+                "content":"Preencha todos os campos!",
                 "style":{marginTop:'5rem'}
             })
         }
-
-        getInvestmentsData()
     }
     
     return(

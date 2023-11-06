@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 import { message } from "antd";
+import axios, { AxiosError } from "axios";
 
 function Register(){
 
@@ -25,7 +26,10 @@ function Register(){
     const[email, setEmail] = React.useState("");
     const[password, setPassword] = React.useState("");
 
+    const[showUserAlreadyExists, setShowUserAlreadyExists] = React.useState(false)
+
     const onSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
+        setShowUserAlreadyExists(false)
         event.preventDefault();
         try {
             const request = await api.post("/users/create", {"name":username, "email":email, "password":password})
@@ -37,7 +41,14 @@ function Register(){
                 })
             }
         } catch (error) {
-            
+            if(axios.isAxiosError(error)){
+                const axiosError = error as AxiosError
+
+                if(axiosError.response?.status == 409){
+                    setShowUserAlreadyExists(true)
+                }
+
+            }
         }
     }
 
@@ -59,10 +70,11 @@ function Register(){
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email</Label>
                                 <Input id="email" type="email" onChange={(e) => {setEmail(e.target.value)}} placeholder="m@example.com" required/>
+                                {(showUserAlreadyExists) && ((<h4 className="font-extralight text-xs text-yellow-600">Este usuário já existe!</h4>))}
                             </div>
                             <div className="grid gap-2">
-                                <Label htmlFor="password">Password</Label>
-                                <Input id="password" type="password" onChange={(e) => {setPassword(e.target.value)}} required/>
+                                <Label htmlFor="password">Senha</Label>
+                                <Input id="password" type="password" onChange={(e) => {setPassword(e.target.value)}} placeholder="Digite uma senha forte!" required/>
                             </div>
                 
                             <Button type="submit" className="w-full bg-green-600 hover:bg-green-500">Criar conta</Button>

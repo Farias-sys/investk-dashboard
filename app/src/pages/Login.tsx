@@ -84,7 +84,7 @@ function Login(){
                                 {(showNotFoundUserAlert) && ((<h4 className="font-extralight text-xs text-yellow-600">Usuário não encontrado!</h4>))}
                             </div>
                             <div className="grid gap-2">
-                                <Label htmlFor="password">Password</Label>
+                                <Label htmlFor="password">Senha</Label>
                                 <Input id="password" type="password" onChange={(e) => {setPassword(e.target.value)}} required/>
                                 {(showWrongPasswordAlert) && (<h4 className="font-extralight text-xs text-yellow-600">Senha incorreta!</h4>)}
                             </div>
