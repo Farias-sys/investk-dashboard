@@ -19,10 +19,9 @@ function Dashboard() {
 
     return (
     <>
-    <div className="main min-h-screen flex flex-col">
-    
-        <Header/>
+    <div className="main min-h-screen">
         <UserDropdown/>
+        <Header/>
         <main className="flex-1 p-6 flex-gap-6">
             <div className="cards grid gap-4 md:grid-cols-4">
                 <DashboardCards title="Aporte Inicial: " value={total_invested} icon={"montante_inicial"}/>

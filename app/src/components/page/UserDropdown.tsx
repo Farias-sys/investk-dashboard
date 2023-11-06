@@ -8,12 +8,12 @@ import { UserContextProps } from '@/context/UserContext';
 export default function UserDropdown(){
     const {name, logoff} = React.useContext(UserContext) as UserContextProps
     return (
-        <div className="absolute text-left left-6 top-5">
+        <div className="sm:px-4 md:absolute text-left left-6 top-5">
             <DropdownMenu>
                 <DropdownMenuTrigger>
                     <Button variant={"outline"} className='text-md'>Olá, {name}</Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-44 ml-2">
+                <DropdownMenuContent className="absolute w-44 ml-2">
                     <DropdownMenuLabel className='font-normal text-sm'>Ações</DropdownMenuLabel>
                     <DropdownMenuSeparator/>
                     <DropdownMenuGroup>
