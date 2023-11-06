@@ -15,6 +15,7 @@ export interface UserContextProps extends UserProps{
     setName: React.Dispatch<React.SetStateAction<string>>
     setTotalInvested: React.Dispatch<React.SetStateAction<number>>
     setTotalYield: React.Dispatch<React.SetStateAction<number>>
+    logoff: () => void
 }
 
 export const UserContext = createContext<UserContextProps | null>(null);
@@ -26,13 +27,19 @@ function UserProvider({children} : any){
     const[total_invested, setTotalInvested] = useLocalStorage("total_invested", 0)
     const[total_yield, setTotalYield] = useLocalStorage("total_yield", 0)
 
+    const logoff = () => {
+        localStorage.clear()
+        window.location.assign('/login')
+    }
     const userStore = {
         tenant, setTenant,
         email, setEmail,
         name, setName,
         total_invested, setTotalInvested,
-        total_yield, setTotalYield
+        total_yield, setTotalYield,
+        logoff
     }
+
 
     return(
         <UserContext.Provider value={userStore}>
